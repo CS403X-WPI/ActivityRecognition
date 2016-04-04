@@ -2,18 +2,21 @@ package name.heqian.cs528.googlefit;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.ActivityRecognition;
-import com.google.android.gms.location.ActivityRecognitionApi;
-import com.google.android.gms.wallet.wobs.TimeInterval;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     public GoogleApiClient mApiClient;
 
@@ -21,6 +24,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         mApiClient = new GoogleApiClient.Builder(this)
                 .addApi(ActivityRecognition.API)
@@ -30,6 +36,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         mApiClient.connect();
     }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        map.addMarker(new MarkerOptions()
+                .position(new LatLng(0, 0))
+                .title("Marker"));
+    }
+
+
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
