@@ -55,6 +55,7 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
                 } else {
                     // Show rationale and request permission.
                     requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+                    mMap.setMyLocationEnabled(true);
                 }
             }
         });
@@ -74,6 +75,8 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
                     mApiClient);
         } else {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                    mApiClient);
         }
         if (mLastLocation != null) {
             //place marker at current position
