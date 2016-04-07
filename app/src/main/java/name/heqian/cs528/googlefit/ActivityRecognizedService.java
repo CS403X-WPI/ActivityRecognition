@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +22,9 @@ import android.os.Handler;
 
 
 public class ActivityRecognizedService extends IntentService {
-
+    public static final String PACKAGE_NAME = "name.heqian.cs528.googlefit";
+    public static final String STRING_ACTION = PACKAGE_NAME + ".STRING_ACTION";
+    public static final String STRING_EXTRA = PACKAGE_NAME + ".STRING_EXTRA";
     static private int previousActivity = -2;
     private int currentActivity = -1;
     private Handler handler;
@@ -39,6 +42,9 @@ public class ActivityRecognizedService extends IntentService {
         if(ActivityRecognitionResult.hasResult(intent)) {
             ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
             handleDetectedActivities( result.getProbableActivities() );
+            Intent i = new Intent(STRING_ACTION);
+            i.putExtra(STRING_EXTRA, result.getMostProbableActivity().toString());
+            LocalBroadcastManager.getInstance(this).sendBroadcast(i);
         }
 
     }
