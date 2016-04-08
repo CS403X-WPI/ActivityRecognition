@@ -129,8 +129,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             case DetectedActivity.IN_VEHICLE:
                 return R.drawable.in_vehicle;
             case DetectedActivity.RUNNING:
+                playMedia();
                 return R.drawable.running;
             case DetectedActivity.WALKING:
+                playMedia();
                 return R.drawable.walking;
             case DetectedActivity.STILL:
                 return R.drawable.still;
